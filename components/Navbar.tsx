@@ -18,11 +18,11 @@ export default function Navbar() {
 
   return (
     <header className="reveal fixed inset-x-0 top-4 z-50 px-4">
-      <nav className="mx-auto flex max-w-3xl items-center justify-between rounded-full border border-white/10 bg-black/60 px-5 py-2.5 backdrop-blur">
-        <Link href="/" className="font-mono text-sm text-white/70">
+      <nav className="mx-auto flex max-w-3xl items-center justify-between rounded-full border border-white/10 bg-black/60 px-4 py-2.5 backdrop-blur sm:px-5">
+        <Link href="/" className="font-mono text-xs text-white/70 sm:text-sm">
           {profile.handle}
         </Link>
-        <ul className="flex gap-4 text-sm sm:gap-6">
+        <ul className="flex gap-3 text-xs sm:gap-6 sm:text-sm">
           {links.map((l) => (
             <li key={l.href}>
               <Link

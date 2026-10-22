@@ -29,11 +29,14 @@ export default function LanyardCard() {
       card.style.transform = `translate(${p.x}px, ${p.y}px) translateX(-50%) rotate(${deg}deg)`;
     };
 
-    const tick = () => {
+    const tick = (t: number) => {
       const r = box.getBoundingClientRect();
+      const mobile = window.innerWidth < 768;
       const ax = r.width / 2;
-      const ay = -140; // tali mulai dari atas halaman
-      const len = Math.min(300, r.height * 0.55) + 140;
+      const ay = mobile ? -30 : -140; // di HP tali pendek supaya tidak menimpa teks
+      const restY = mobile ? r.height * 0.32 : Math.min(300, r.height * 0.55);
+      const len = restY - ay;
+      const maxAngle = ((mobile ? 30 : 45) * Math.PI) / 180;
 
       if (!p.ready) {
         p.x = ax + 60;
@@ -49,7 +52,9 @@ export default function LanyardCard() {
       }
 
       p.vy += 0.5; // gravitasi
-      if (pointer.active) {
+      if (mobile) {
+        p.vx += Math.sin(t / 700) * 0.05; // goyangan pelan di HP
+      } else if (pointer.active) {
         p.vx += (pointer.x - r.left - p.x) * 0.0025; // tarik ke kursor
         p.vy += (pointer.y - r.top - p.y) * 0.0025;
       }
@@ -74,11 +79,22 @@ export default function LanyardCard() {
         }
       }
 
+      // batasi sudut ayunan supaya kartu tidak berputar ekstrem
+      const ang = Math.atan2(p.x - ax, p.y - ay);
+      if (Math.abs(ang) > maxAngle) {
+        const a = Math.sign(ang) * maxAngle;
+        const d = Math.hypot(p.x - ax, p.y - ay);
+        p.x = ax + Math.sin(a) * d;
+        p.y = ay + Math.cos(a) * d;
+        p.vx *= 0.5;
+      }
+
       draw(ax, ay);
       raf = requestAnimationFrame(tick);
     };
 
     const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
       pointer.x = e.clientX;
       pointer.y = e.clientY;
       pointer.active = true;
