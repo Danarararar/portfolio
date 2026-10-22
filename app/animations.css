@@ -1,0 +1,37 @@
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* dipakai di splash intro (selalu jalan) */
+.fade-in-up { animation: fadeUp 0.7s ease-out both; }
+
+/* dipakai di konten halaman: menunggu intro selesai dulu */
+.reveal { animation: fadeUp 0.8s ease-out both; }
+html[data-intro="playing"] .reveal { animation: none; opacity: 0; }
+
+.caret {
+  display: inline-block;
+  width: 0.5ch;
+  margin-left: 2px;
+  background: currentColor;
+  animation: blink 1s steps(1) infinite;
+}
+
+.font-display { font-family: var(--font-syne), system-ui, sans-serif; }
+
+.bg-grid {
+  background-image:
+    radial-gradient(ellipse at 30% 15%, rgba(255, 255, 255, 0.08), transparent 55%),
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .fade-in-up { animation: none !important; opacity: 1 !important; }
+  .caret { animation: none; }
+}
