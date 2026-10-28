@@ -35,3 +35,10 @@ html[data-intro="playing"] .reveal { animation: none; opacity: 0; }
   .reveal, .fade-in-up { animation: none !important; opacity: 1 !important; }
   .caret { animation: none; }
 }
+   /* Tema gelap tetap, apa pun pengaturan terang/gelap sistem pengunjung */
+   :root { color-scheme: dark; }
+   body {
+     background-color: #000;
+     color: #fff;
+     font-family: var(--font-grotesk), system-ui, sans-serif;
+   }
